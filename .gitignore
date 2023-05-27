@@ -1,0 +1,6 @@
+#composer.lock
+#Dockerfile
+#Selenium
+#sql
+src/*Answer.*
+#vendor/
