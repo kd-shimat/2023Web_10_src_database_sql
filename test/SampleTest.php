@@ -57,7 +57,7 @@ class SampleTest extends TestCase
         $result = $stmt->fetch();
 
         // 取得データ確認用
-        var_dump($result);
+        // var_dump($result);
 
         // assert
         $this->assertStringContainsString('野口', $result['name']);
@@ -92,7 +92,7 @@ class SampleTest extends TestCase
         $result = $stmt->fetch();
 
         // 取得データ確認用
-        var_dump($result);
+        // var_dump($result);
 
         // assert
         $this->assertStringContainsString('深沢', $result['name']);
@@ -122,10 +122,9 @@ class SampleTest extends TestCase
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['深沢%']);
         $count = $stmt->rowCount();                          // レコード数の取得	
-        $result = $stmt->fetch();
 
         // 取得データ確認用
-        var_dump($result);
+        //var_dump($result);
 
         // assert
         $this->assertStringContainsString('0', $count);
