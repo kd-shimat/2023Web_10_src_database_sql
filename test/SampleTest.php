@@ -4,8 +4,6 @@
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use PHPUnit\Framework\TestCase;
-use Facebook\WebDriver\WebDriverExpectedCondition;
-use Facebook\WebDriver\WebDriverBy;
 
 class SampleTest extends TestCase
 {
@@ -56,14 +54,8 @@ class SampleTest extends TestCase
         $stmt->execute(['野口%']);
         $result = $stmt->fetch();
 
-        // 取得データ確認用
-        // var_dump($result);
-
         // assert
-        $this->assertStringContainsString('野口', $result['name']);
-
-        // // DBの接続を解除
-        // $this->pdo = null;
+        $this->assertStringContainsString('野口', $result['name'], 'dbupdate.phpに誤りがあります。');
     }
 
     public function testInsert()
@@ -86,16 +78,13 @@ class SampleTest extends TestCase
         $this->driver->get('http://php/src/dbinsert.php');
 
         //データベースの値を取得
-        $sql = 'select  *  from  person where name like ?';       // SQL文の定義
+        $sql = 'select  *  from  person';       // SQL文の定義
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['深沢%']);
-        $result = $stmt->fetch();
-
-        // 取得データ確認用
-        // var_dump($result);
+        $stmt->execute([]);
+        $count = $stmt->rowCount();                          // レコード数の取得	
 
         // assert
-        $this->assertStringContainsString('深沢', $result['name']);
+        $this->assertEquals('7', $count, 'dbinsert.phpに誤りがあります。');
     }
 
     public function testDelete()
@@ -118,16 +107,13 @@ class SampleTest extends TestCase
         $this->driver->get('http://php/src/dbdelete.php');
 
         //データベースの値を取得
-        $sql = 'select  *  from  person where name like ?';       // SQL文の定義
+        $sql = 'select  *  from  person';       // SQL文の定義
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['深沢%']);
+        $stmt->execute([]);
         $count = $stmt->rowCount();                          // レコード数の取得	
 
-        // 取得データ確認用
-        //var_dump($result);
-
         // assert
-        $this->assertStringContainsString('0', $count);
+        $this->assertEquals('6', $count, 'dbdelete.phpに誤りがあります。');
 
         // DBの接続を解除
         $this->pdo = null;
